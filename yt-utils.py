@@ -14,21 +14,9 @@ import shutil # to save it locally
 
 scopes = ["https://www.googleapis.com/auth/youtube.readonly"]
 
-def main():
-    # Disable OAuthlib's HTTPS verification when running locally.
-    # *DO NOT* leave this option enabled in production.
-    os.environ["OAUTHLIB_INSECURE_TRANSPORT"] = "1"
-
-    api_service_name = "youtube"
-    api_version = "v3"
-    api_key = os.environ["API_KEY"]
+def extract_thumbnails(youtube):
     bbb_channel_id = "UC5CwAZoYHlI4isp0llzZCIA"
-
     uploads_playlist_id = "UU5CwAZoYHlI4isp0llzZCIA"
-
-    youtube = googleapiclient.discovery.build(
-        api_service_name, api_version, developerKey=api_key)
-
 
     request = youtube.playlistItems().list(
         part="id, snippet",
@@ -75,6 +63,24 @@ def main():
             shutil.copyfileobj(r.raw, f)
         
         print('Image sucessfully Downloaded: ',filename)
+
+def main():
+    # Disable OAuthlib's HTTPS verification when running locally.
+    # *DO NOT* leave this option enabled in production.
+    os.environ["OAUTHLIB_INSECURE_TRANSPORT"] = "1"
+
+    api_service_name = "youtube"
+    api_version = "v3"
+    api_key = os.environ["API_KEY"]
+
+
+    youtube = googleapiclient.discovery.build(
+        api_service_name, api_version, developerKey=api_key)
+
+    extract_thumbnails (youtube)
+
+
+
 
 
 if __name__ == "__main__":
