@@ -2,3 +2,6 @@ creds
 *.jpg
 *.json
 bbb-yt
+__pycache__/
+new_layer/
+old_thumbnails/
